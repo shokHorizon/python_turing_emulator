@@ -13,7 +13,8 @@ class Turing_machine:
             self.rules.pop(symbol)
             
     def add_rule(self, symbol, state, rule):
-        if rule and rule[1] in ('<', '.', '>'):
+        print(rule, state, symbol)
+        if len(rule) == 3 and rule[1] in ('<', '.', '>'):
             self.rules[symbol][state] = rule
             return rule
         return None
@@ -30,29 +31,32 @@ class Turing_machine:
             
             while(state != 0):
                 current_symbol = sub_line[position]
+                if current_symbol not in self.rules:
+                    return 'Error'
                 rule = self.rules[current_symbol][state-1]
-                print(sub_line)
-                print(f'{rule=} {current_symbol=}')
+                print(self.rules)
+                print(f'{rule=} {current_symbol=} {state=}')
                 
                 if rule is not None:
                     sub_line[position] = rule[0]
                     match(rule[1]):
                         case '<':
-                            if position != 0:
+                            if position == 0:
+                                sub_line.insert(0, ' ')
+                            else:
                                 position -= 1
-                                continue
-                            sub_line.insert(0, ' ')
                         case '>':
-                            if position != len(sub_line) - 1:
-                                position += 1
-                                continue
-                            sub_line.append(' ')
+                            if position == len(sub_line) - 1:
+                                sub_line.append(' ')
+                            position += 1
                         case '.':
                             state = 0
                             break
                         
                     state = int(rule[2])
+                else:
+                    return 'Error'
                 
             return sub_line
-        return None
+        return 'Error'
         

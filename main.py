@@ -1,4 +1,5 @@
 import tkinter as tk
+
 from turing import Turing_machine
 
 
@@ -9,11 +10,14 @@ def machine_execute():
         if symbol and len(symbol) == 1:
             tm.add_symbol(symbol, 10)
             for j in range(10):
-                rule = cells[i%10+j*10].get()
-                tm.add_rule(symbol, i, rule)
+                rule = cells[j][i].get()
+                print(f'for {symbol=} {rule=}')
+                tm.add_rule(symbol, j, rule)
             
-    answer = tm.execute(list(e.get()), 0)
-    print(answer)
+    answer = ''.join(tm.execute(list(e.get()), 0))
+    
+    for symbol in tm.rules.copy():
+        tm.remove_symbol(symbol)
         
     result.config(text = answer)
 
@@ -36,8 +40,8 @@ line_frame.grid(row=0)
 
 rules_frame = tk.Frame(window, bg='#252525')
 
-cells = [] * 10
-alphabet = [] * 10
+cells = [None] * 10
+alphabet = list()
 
 tk.Label(rules_frame, width=3, text=f'ABC').grid(row=0, column=0)
 
@@ -47,8 +51,10 @@ for i in range(10):
     alphabet.append(cell:=tk.Entry(rules_frame, width=3))
     cell.grid(row=0, column=i+1)
     
+    cells[i] = list()
+    
     for j in range(10):
-        cells.append(cell:=tk.Entry(rules_frame, width=3))
+        cells[i].append(cell:=tk.Entry(rules_frame, width=3))
         cell.grid(row=i+1, column=j+1)
 
 rules_frame.grid(row=1)
