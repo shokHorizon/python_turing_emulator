@@ -5,6 +5,7 @@ from turing import Turing_machine
 
 tm = Turing_machine()
 
+# Метод подготавливает данные для обработки скриптом
 def machine_execute():
     for i, symbol in enumerate([entry.get() for entry in alphabet]):
         if symbol and len(symbol) == 1:
@@ -14,7 +15,7 @@ def machine_execute():
                 print(f'for {symbol=} {rule=}')
                 tm.add_rule(symbol, j, rule)
             
-    answer = ''.join(tm.execute(list(e.get()), 0))
+    answer = ''.join(tm.execute(list(e.get()), 0)).strip()
     
     for symbol in tm.rules.copy():
         tm.remove_symbol(symbol)
@@ -22,10 +23,11 @@ def machine_execute():
     result.config(text = answer)
 
 
+# Создание окна приложения
 window = tk.Tk()
 window.title('Turing machine emulator')
 
-
+# Создание верхнего фрейма
 line_frame = tk.Frame(window, bg='#222222')
 
 e = tk.Entry(line_frame, bg='#353535', border=1, highlightcolor='#353535')
@@ -38,6 +40,7 @@ execute.pack(fill='x')
 
 line_frame.grid(row=0)
 
+# Создание фрейма под таблицу
 rules_frame = tk.Frame(window, bg='#252525')
 
 validate_less_than_2 = window.register(lambda x: len(x) < 2)
