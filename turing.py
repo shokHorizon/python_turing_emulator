@@ -13,7 +13,6 @@ class Turing_machine:
             self.rules.pop(symbol)
             
     def add_rule(self, symbol, state, rule):
-        print(rule, state, symbol)
         if len(rule) == 3 and rule[1] in ('<', '.', '>'):
             self.rules[symbol][state] = rule
             return rule
@@ -34,8 +33,6 @@ class Turing_machine:
                 if current_symbol not in self.rules:
                     return 'Error'
                 rule = self.rules[current_symbol][state-1]
-                print(self.rules)
-                print(f'{rule=} {current_symbol=} {state=}')
                 
                 if rule is not None:
                     sub_line[position] = rule[0]

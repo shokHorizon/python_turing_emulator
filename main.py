@@ -12,7 +12,6 @@ def machine_execute():
             tm.add_symbol(symbol, 10)
             for j in range(10):
                 rule = cells[j][i].get()
-                print(f'for {symbol=} {rule=}')
                 tm.add_rule(symbol, j, rule)
             
     answer = ''.join(tm.execute(list(e.get()), 0)).strip()
