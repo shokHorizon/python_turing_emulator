@@ -40,6 +40,9 @@ line_frame.grid(row=0)
 
 rules_frame = tk.Frame(window, bg='#252525')
 
+validate_less_than_2 = window.register(lambda x: len(x) < 2)
+validate_rule = window.register(lambda x: len(x) < 4)
+
 cells = [None] * 10
 alphabet = list()
 
@@ -48,13 +51,23 @@ tk.Label(rules_frame, width=3, text=f'ABC').grid(row=0, column=0)
 for i in range(10):
     tk.Label(rules_frame, width=3, text=f'Q{i+1}').grid(row=i+1, column=0)
     
-    alphabet.append(cell:=tk.Entry(rules_frame, width=3))
+    alphabet.append(cell:=tk.Entry(
+        rules_frame, 
+        width=3, 
+        validate="key", 
+        validatecommand=(validate_less_than_2, '%P')
+        ))
     cell.grid(row=0, column=i+1)
     
     cells[i] = list()
     
     for j in range(10):
-        cells[i].append(cell:=tk.Entry(rules_frame, width=3))
+        cells[i].append(cell:=tk.Entry(
+            rules_frame,
+            width=3,
+            validate="key", 
+            validatecommand=(validate_rule, '%P')
+        ))
         cell.grid(row=i+1, column=j+1)
 
 rules_frame.grid(row=1)
