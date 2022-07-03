@@ -13,7 +13,7 @@ class Turing_machine:
             self.rules.pop(symbol)
             
     def add_rule(self, symbol, state, rule):
-        if len(rule) == 3 and rule[1] in ('<', '.', '>'):
+        if len(rule) >= 3 and rule[2:].isdigit() and rule[1] in ('<', '.', '>'):
             self.rules[symbol][state] = rule
             return rule
         return None
@@ -28,7 +28,7 @@ class Turing_machine:
             state = 1
             sub_line = line.copy()
             
-            while(state != 0):
+            while(state != 0 and sub_line):
                 current_symbol = sub_line[position]
                 if current_symbol not in self.rules:
                     return 'Error'
@@ -50,7 +50,7 @@ class Turing_machine:
                             state = 0
                             break
                         
-                    state = int(rule[2])
+                    state = int(rule[2:])
                 else:
                     return 'Error'
                 
